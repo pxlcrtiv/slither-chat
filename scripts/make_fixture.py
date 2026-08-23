@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from slither_chat.analyzer import run_slither  # noqa: E402
+from slither_chat.analyzer import run_slither
 
 payload = run_slither("examples/vault.sol")
 stripped = {

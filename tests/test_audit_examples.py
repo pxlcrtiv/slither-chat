@@ -6,7 +6,7 @@ import pytest
 
 from slither_chat.analyzer import run_slither
 from slither_chat.parser import normalize
-from tests.conftest import example_paths, requires_solc
+from tests.conftest import requires_solc
 
 pytestmark = pytest.mark.slow
 

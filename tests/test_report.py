@@ -1,7 +1,7 @@
 """Report renderer tests (markdown + rich)."""
 
 from slither_chat import report
-from slither_chat.models import AuditResult, Finding, Severity
+from slither_chat.models import AuditResult
 from slither_chat.parser import normalize
 from slither_chat.rule_backend import enrich
 from tests.conftest import EXAMPLES, load_fixture

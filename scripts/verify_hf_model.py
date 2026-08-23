@@ -5,7 +5,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from slither_chat.hf_backend import ZeroShotVulnClassifier  # noqa: E402
+from slither_chat.hf_backend import ZeroShotVulnClassifier
 
 t0 = time.monotonic()
 z = ZeroShotVulnClassifier()

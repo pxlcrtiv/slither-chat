@@ -4,7 +4,6 @@ import httpx
 import pytest
 
 from slither_chat.llm_backend import LLMClient, LLMExplainer, _parse_json
-from slither_chat.models import Finding, Severity
 from slither_chat.rule_backend import KB
 
 

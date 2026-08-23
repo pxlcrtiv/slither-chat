@@ -20,7 +20,6 @@ from typing import Protocol, runtime_checkable
 
 import httpx
 
-from .models import Finding
 from .patches import build_patch, inline_fix_hint
 
 
@@ -92,7 +91,7 @@ class LLMClient:
 def _parse_json(content: str) -> dict:
     """Parse model output, tolerating ```json fences and stray prose."""
     text = content.strip()
-    fence = re.search(r"```(?:json)?\s*(.*?)```", text, re.S)
+    fence = re.search(r"```(?:json)?\s*(.*?)```", text, re.DOTALL)
     if fence:
         text = fence.group(1).strip()
     start, end = text.find("{"), text.rfind("}")
@@ -137,6 +136,6 @@ class LLMExplainer:
                 if why:
                     f.explanation = f"{f.explanation}\n\nWhy it matters: {why}"
                 f.source = "llm"
-            except Exception as exc:  # noqa: BLE001 - one bad call must not kill the audit
+            except Exception as exc:
                 f.explanation = f"(LLM call failed: {exc})\n" + f.explanation
             f.patch = build_patch(source_path, f, hint=inline_fix_hint(f) if not f.fix else f.fix)

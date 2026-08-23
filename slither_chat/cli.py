@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 
 import click
 
 from . import __version__, hf_backend
-from .models import AnalysisError, SEVERITY_ORDER
+from .models import AnalysisError
 from .report import build_rich_console, render_markdown, render_rich, render_svg
 
 CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
@@ -108,7 +107,6 @@ def benchmark(dataset: str, limit: int, backend: str, bench_all: bool,
     (Slither + explainer), and reports per-run precision/recall/F1 versus the
     Slither ground truth recorded in the dataset.
     """
-    from .pipeline import audit as run_audit
 
     info = hf_backend.BENCHMARK_DATASETS[dataset]
     click.echo(
@@ -193,8 +191,9 @@ def benchmark(dataset: str, limit: int, backend: str, bench_all: bool,
 @cli.command("datasets")
 def datasets() -> None:
     """List the Hugging Face benchmark corpora supported by `benchmark`."""
-    from . import hf_backend
     from rich.table import Table
+
+    from . import hf_backend
 
     console = build_rich_console(width=140)
     t = Table(title="Hugging Face benchmark datasets", header_style="bold")
@@ -227,7 +226,7 @@ def _detect_solc_versions() -> list[str]:
         proc = subprocess.run(
             [bin_path, "versions"], capture_output=True, text=True, timeout=30
         )
-    except Exception:  # noqa: BLE001
+    except Exception:
         return []
     versions = []
     for line in (proc.stdout or "").splitlines():

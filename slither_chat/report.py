@@ -11,7 +11,7 @@ from rich.rule import Rule
 from rich.syntax import Syntax
 from rich.table import Table
 
-from .models import AuditResult, Finding, SEVERITY_ORDER
+from .models import SEVERITY_ORDER, AuditResult, Finding
 
 _SEV_STYLE = {
     "High": "bold red",

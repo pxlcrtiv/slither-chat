@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Optional
 
 
 class Severity(str, Enum):
@@ -21,7 +20,7 @@ class Severity(str, Enum):
 
 
 #: Rank used for ordering (High = 0 is "most severe").
-def _rank(sev: "Severity") -> int:
+def _rank(sev: Severity) -> int:
     return {
         Severity.HIGH: 0,
         Severity.MEDIUM: 1,

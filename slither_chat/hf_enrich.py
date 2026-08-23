@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from .hf_backend import ZeroShotVulnClassifier, _MODEL_ID
+from .hf_backend import _MODEL_ID, ZeroShotVulnClassifier
 from .models import AuditResult
 from .rule_backend import enrich as rule_enrich
 

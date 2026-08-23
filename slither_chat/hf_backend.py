@@ -14,19 +14,17 @@ Two independent integrations, both usable with public (token-free) reads:
 
 from __future__ import annotations
 
-import json
 import logging
 import re
 import tempfile
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Optional
 
 import pandas as pd
 from huggingface_hub import HfApi, hf_hub_download
 
 from .analyzer import run_slither
-from .models import AnalysisError, Finding, Severity, severity_from_impact
+from .models import AnalysisError, Finding, Severity
 from .parser import normalize
 
 log = logging.getLogger("slither_chat.hf")
@@ -75,7 +73,7 @@ def parse_ground_truth(text: str) -> list[tuple[str, str]]:
 # Dataset table loading (cached by huggingface_hub; no auth required)
 # ---------------------------------------------------------------------------
 def fetch_dataset_table(
-    dataset: str, split: str = "test", limit: Optional[int] = None
+    dataset: str, split: str = "test", limit: int | None = None
 ) -> pd.DataFrame:
     """Return rows of an HF dataset as a DataFrame (first parquet shard)."""
     info = BENCHMARK_DATASETS[dataset]
@@ -128,10 +126,10 @@ def _rule_id_of(f: Finding) -> str:
 
 def run_benchmark(
     dataset: str,
-    limit: Optional[int] = None,
+    limit: int | None = None,
     backend: str = "rule",
     enrich_fn=None,  # callable(result, source_path) or None
-    solc_versions: Optional[list[str]] = None,
+    solc_versions: list[str] | None = None,
     include_informational: bool = False,
 ) -> tuple[list[BenchmarkRow], dict]:
     """Audit ``limit`` contracts from the HF dataset and score vs ground truth.
@@ -158,7 +156,7 @@ def run_benchmark(
 
     for idx, row in df.iterrows():
         source = str(row[info["source_col"]])
-        truth = set(r for r, _ in parse_ground_truth(str(row[info["truth_col"]])))
+        truth = {r for r, _ in parse_ground_truth(str(row[info["truth_col"]]))}
         truth_rules |= truth
 
         br = BenchmarkRow(index=idx, truth=truth, found=set(), tp=set(), fp=set(), fn=set())
@@ -171,7 +169,7 @@ def run_benchmark(
                 if enrich_fn is not None:
                     enrich_fn(result, sol_path)
                 found = {_rule_id_of(f) for f in result.findings if significant(f)}
-            except Exception as exc:  # noqa: BLE001 - per-row isolation
+            except Exception as exc:
                 br.error = f"{type(exc).__name__}: {exc}"[:300]
                 rows.append(br)
                 continue
@@ -290,7 +288,7 @@ class ZeroShotVulnClassifier:
             try:
                 f.issue_class, f.class_confidence = self.classify(text)
                 f.source = "hf"
-            except Exception as exc:  # noqa: BLE001 - keep pipeline alive
+            except Exception as exc:
                 log.warning("zero-shot classify failed for %s: %s", f.rule_id, exc)
 
 

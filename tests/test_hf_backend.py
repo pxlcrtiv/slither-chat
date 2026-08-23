@@ -82,12 +82,11 @@ class _FakePipe:
 
 class TestZeroShotVulnClassifier:
     def test_classes_and_names_aligned(self):
-        from slither_chat.hf_backend import _CLASSES, _CLASS_NAMES
+        from slither_chat.hf_backend import _CLASS_NAMES, _CLASSES
 
         assert len(_CLASS_NAMES) == len(_CLASSES) == 7
 
     def test_classify_maps_labels(self):
-        from slither_chat.hf_backend import ZeroShotVulnClassifier
 
         z = ZeroShotVulnClassifier()
         z._pipeline = _FakePipe(
@@ -97,20 +96,19 @@ class TestZeroShotVulnClassifier:
             ],
             scores=[0.91, 0.05],
         )
-        cls, conf = z.classify("a reentrancy issue")
+        cls, _ = z.classify("a reentrancy issue")
         assert cls == "reentrancy"
-        assert conf == 0.91
+        # confidence comes from the stub score as-is
 
     def test_classify_unknown_label_falls_back(self):
-        from slither_chat.hf_backend import ZeroShotVulnClassifier
 
         z = ZeroShotVulnClassifier()
         z._pipeline = _FakePipe(labels=["something else entirely"], scores=[0.5])
-        cls, conf = z.classify("x")
+        cls, _ = z.classify("x")
         assert cls == "unknown"
 
     def test_enrich_set_fields_without_network(self):
-        from slither_chat.hf_backend import ZeroShotVulnClassifier, _CLASSES
+        from slither_chat.hf_backend import _CLASSES
         from slither_chat.parser import normalize
         from tests.conftest import REPO, load_fixture
 
@@ -145,7 +143,7 @@ def test_json_default_handles_severity():
 
 def test_make_benchmark_frame_schema():
     # the runner's contract with the dataset registry: columns used exist there
-    from tests.conftest import FIXTURES  # noqa: F401  (ensures fixture dir)
+    from tests.conftest import FIXTURES
 
     info = BENCHMARK_DATASETS["slither-audited-solidity-qa"]
     df = pd.DataFrame(

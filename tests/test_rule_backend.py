@@ -1,11 +1,9 @@
 """Knowledge-base backend tests (offline deterministic explainer)."""
 
-from pathlib import Path
 
 from slither_chat.models import Finding, Severity
-from slither_chat.rule_backend import KB, enrich, explain, explain_with_fields
-from tests.conftest import load_fixture, vault_source, REPO
 from slither_chat.parser import normalize
+from slither_chat.rule_backend import KB, enrich, explain, explain_with_fields
 
 
 def _finding(rule_id: str, lines=(10, 11)) -> Finding:
@@ -47,7 +45,6 @@ def test_explain_with_fields():
 
 
 def test_enrich_populates_fields(vault_payload, vault_source):
-    from slither_chat.parser import normalize
 
     result = normalize(vault_payload, vault_source)
     enrich(result, vault_source)
@@ -62,7 +59,6 @@ def test_enrich_populates_fields(vault_payload, vault_source):
 
 
 def test_enrich_does_not_rewrite_severity(vault_payload, vault_source):
-    from slither_chat.parser import normalize
 
     result = normalize(vault_payload, vault_source)
     before = {f.key: f.severity for f in result.findings}

@@ -50,3 +50,15 @@ markers = [
 line-length = 100
 target-version = "py310"
 extend-exclude = ["docs", "examples"]
+
+[tool.ruff.lint]
+# Intentional deviations (with rationale):
+#   PLW1510 - subprocess without check=: returncodes are handled explicitly
+#             (analyzer reads JSON output; exit code is surfaced in _meta).
+#   BLE001  - blind excepts isolate one finding/row from killing a whole audit.
+#   ISC004  - implicit string concatenation keeps KB/report lines readable.
+ignore = ["PLW1510", "BLE001", "ISC004"]
+
+[tool.ruff.lint.per-file-ignores]
+# pytest fixture-param pattern: module import + function param = F811/F401 noise
+"tests/*.py" = ["F811", "F401"]
