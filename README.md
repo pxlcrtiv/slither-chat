@@ -11,7 +11,10 @@ Your smart-contract **audit copilot** — Slither findings explained in plain En
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Datasets%20%2B%20Models-yellow?logo=huggingface)](https://huggingface.co/Royal-lobster/Slither-Audited-Solidity-QA)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![pypi](https://img.shields.io/badge/pypi-slither--chat-blueviolet)](https://pypi.org/)
+[![Stars](https://img.shields.io/github/stars/pxlcrtiv/slither-chat?logo=github)](https://github.com/pxlcrtiv/slither-chat/stargazers)
+[![Forks](https://img.shields.io/github/forks/pxlcrtiv/slither-chat?logo=github)](https://github.com/pxlcrtiv/slither-chat/forks)
+[![Last commit](https://img.shields.io/github/last-commit/pxlcrtiv/slither-chat?label=last%20commit)](https://github.com/pxlcrtiv/slither-chat/commits/main)
+[![Repo size](https://img.shields.io/github/repo-size/pxlcrtiv/slither-chat?label=size)](https://github.com/pxlcrtiv/slither-chat)
 
 </div>
 
@@ -45,6 +48,17 @@ audited contracts from the Hugging Face Hub.
   with Slither ground truth, scored with precision / recall / F1 per rule.
 - 📄 Renders **markdown reports**, rich terminal output, and exportable **SVG**
   (for READMEs), plus full JSON for CI pipelines.
+
+## Tech stack
+
+| Layer | Choice |
+|---|---|
+| Language | Python ≥ 3.10 (`click` CLI, dataclasses, `httpx`), ruff-linted |
+| Static analysis | Slither (`--json` mode via subprocess) + crytic-compile / solc-select |
+| ML | Hugging Face `datasets` + `transformers` — DeBERTa-v3 zero-shot tagging, all on-device |
+| LLM | Any OpenAI-compatible API (`llm` backend, graceful fallback to `rule`) |
+| Reporting | rich (terminal), markdown, SVG export, JSON |
+| CI | GitHub Actions — pytest ×2 Python versions, ruff, live benchmark smoke |
 
 ## Demo
 
