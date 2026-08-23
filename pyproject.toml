@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slither-chat"
+version = "0.3.0"
+description = "Smart-contract audit copilot: Slither findings explained in plain English, with patches, benchmarks against Hugging Face audit corpora, and HF zero-shot severity scoring."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "pxlcrtiv" }]
+keywords = ["solidity", "slither", "security", "audit", "llm", "huggingface", "ethereum", "smart-contracts"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = [
+    "slither-analyzer>=0.10.0",
+    "click>=8.1",
+    "rich>=13.0",
+    "huggingface_hub>=0.24",
+    "pandas>=2.0",
+    "pyarrow>=14.0",
+]
+
+[project.optional-dependencies]
+hf = ["transformers>=4.40", "torch>=2.0"]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+
+[project.scripts]
+slither-chat = "slither_chat.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["slither_chat*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "network: hits the network (HF Hub) - usually skipped",
+    "slow: needs model downloads or heavy solc compilation",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["docs", "examples"]

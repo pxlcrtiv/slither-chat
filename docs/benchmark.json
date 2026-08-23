@@ -1,0 +1,971 @@
+{
+  "dataset": "Royal-lobster/Slither-Audited-Solidity-QA",
+  "backend": "rule",
+  "summary": {
+    "contracts": 50,
+    "analyzed": 43,
+    "errors": 7,
+    "true_positives": 61,
+    "false_positives": 83,
+    "false_negatives": 2,
+    "precision": 0.424,
+    "recall": 0.968,
+    "f1": 0.589,
+    "rules_detected": 21,
+    "rules_present": 11
+  },
+  "rows": [
+    {
+      "index": 0,
+      "truth": [
+        "incorrect-equality",
+        "reentrancy-no-eth",
+        "weak-prng"
+      ],
+      "found": [
+        "incorrect-equality",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "reentrancy-no-eth",
+        "timestamp",
+        "weak-prng"
+      ],
+      "tp": [
+        "incorrect-equality",
+        "reentrancy-no-eth",
+        "weak-prng"
+      ],
+      "fp": [
+        "missing-zero-check",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 1,
+      "truth": [
+        "incorrect-equality",
+        "unchecked-transfer",
+        "uninitialized-state",
+        "unused-return",
+        "weak-prng"
+      ],
+      "found": [
+        "arbitrary-send-erc20",
+        "calls-loop",
+        "events-maths",
+        "incorrect-equality",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "timestamp",
+        "unchecked-transfer",
+        "uninitialized-local",
+        "uninitialized-state",
+        "unused-return",
+        "weak-prng"
+      ],
+      "tp": [
+        "incorrect-equality",
+        "unchecked-transfer",
+        "uninitialized-state",
+        "unused-return",
+        "weak-prng"
+      ],
+      "fp": [
+        "arbitrary-send-erc20",
+        "calls-loop",
+        "events-maths",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "timestamp",
+        "uninitialized-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 2,
+      "truth": [
+        "incorrect-equality",
+        "unchecked-transfer",
+        "weak-prng"
+      ],
+      "found": [
+        "calls-loop",
+        "incorrect-equality",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "timestamp",
+        "unchecked-transfer",
+        "uninitialized-local",
+        "weak-prng"
+      ],
+      "tp": [
+        "incorrect-equality",
+        "unchecked-transfer",
+        "weak-prng"
+      ],
+      "fp": [
+        "calls-loop",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "timestamp",
+        "uninitialized-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 3,
+      "truth": [
+        "incorrect-equality",
+        "unchecked-transfer",
+        "uninitialized-state",
+        "unused-return",
+        "weak-prng"
+      ],
+      "found": [
+        "arbitrary-send-erc20",
+        "calls-loop",
+        "incorrect-equality",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "timestamp",
+        "unchecked-transfer",
+        "uninitialized-local",
+        "uninitialized-state",
+        "unused-return",
+        "weak-prng"
+      ],
+      "tp": [
+        "incorrect-equality",
+        "unchecked-transfer",
+        "uninitialized-state",
+        "unused-return",
+        "weak-prng"
+      ],
+      "fp": [
+        "arbitrary-send-erc20",
+        "calls-loop",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "timestamp",
+        "uninitialized-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 4,
+      "truth": [],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": "AnalysisError: slither produced no JSON output (exit=1):\n00000gn/T/slither-chat-bench-zv_h733z/contract.sol:1:1: Error: Source file requires different compiler version (current compiler is 0.5.17+commit.d19bba13.Darwin.appleclang - note that nightly builds are considered to be strictly less than the"
+    },
+    {
+      "index": 5,
+      "truth": [],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": "AnalysisError: slither produced no JSON output (exit=1):\n00000gn/T/slither-chat-bench-kp3nw22c/contract.sol:1:1: Error: Source file requires different compiler version (current compiler is 0.5.17+commit.d19bba13.Darwin.appleclang - note that nightly builds are considered to be strictly less than the"
+    },
+    {
+      "index": 6,
+      "truth": [],
+      "found": [
+        "missing-zero-check",
+        "shadowing-local",
+        "timestamp"
+      ],
+      "tp": [],
+      "fp": [
+        "missing-zero-check",
+        "shadowing-local",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 7,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether",
+        "missing-zero-check"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 8,
+      "truth": [
+        "divide-before-multiply",
+        "locked-ether",
+        "unchecked-transfer"
+      ],
+      "found": [
+        "divide-before-multiply",
+        "locked-ether",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "shadowing-local",
+        "timestamp",
+        "unchecked-transfer"
+      ],
+      "tp": [
+        "divide-before-multiply",
+        "locked-ether",
+        "unchecked-transfer"
+      ],
+      "fp": [
+        "missing-zero-check",
+        "reentrancy-benign",
+        "shadowing-local",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 9,
+      "truth": [],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 10,
+      "truth": [],
+      "found": [
+        "missing-zero-check",
+        "shadowing-local"
+      ],
+      "tp": [],
+      "fp": [
+        "missing-zero-check",
+        "shadowing-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 11,
+      "truth": [],
+      "found": [
+        "shadowing-local"
+      ],
+      "tp": [],
+      "fp": [
+        "shadowing-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 12,
+      "truth": [],
+      "found": [
+        "shadowing-local"
+      ],
+      "tp": [],
+      "fp": [
+        "shadowing-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 13,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 14,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 15,
+      "truth": [
+        "divide-before-multiply",
+        "incorrect-equality",
+        "reentrancy-no-eth",
+        "uninitialized-local",
+        "weak-prng"
+      ],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": "AnalysisError: slither produced no JSON output (exit=1):\nr-chat-bench-9mk785sa/contract.sol:14:1: Error: Source file requires different compiler version (current compiler is 0.5.17+commit.d19bba13.Darwin.appleclang - note that nightly builds are considered to be strictly less than the released versi"
+    },
+    {
+      "index": 16,
+      "truth": [
+        "weak-prng"
+      ],
+      "found": [
+        "weak-prng"
+      ],
+      "tp": [
+        "weak-prng"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 17,
+      "truth": [],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 18,
+      "truth": [],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 19,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether",
+        "missing-zero-check"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 20,
+      "truth": [
+        "incorrect-equality",
+        "uninitialized-local",
+        "unused-return",
+        "weak-prng"
+      ],
+      "found": [
+        "incorrect-equality",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "timestamp",
+        "uninitialized-local",
+        "unused-return",
+        "weak-prng"
+      ],
+      "tp": [
+        "incorrect-equality",
+        "uninitialized-local",
+        "unused-return",
+        "weak-prng"
+      ],
+      "fp": [
+        "missing-zero-check",
+        "reentrancy-benign",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 21,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether",
+        "missing-zero-check",
+        "reentrancy-events",
+        "shadowing-local",
+        "timestamp"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [
+        "missing-zero-check",
+        "reentrancy-events",
+        "shadowing-local",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 22,
+      "truth": [
+        "incorrect-equality",
+        "locked-ether"
+      ],
+      "found": [
+        "events-maths",
+        "incorrect-equality",
+        "timestamp"
+      ],
+      "tp": [
+        "incorrect-equality"
+      ],
+      "fp": [
+        "events-maths",
+        "timestamp"
+      ],
+      "fn": [
+        "locked-ether"
+      ],
+      "error": ""
+    },
+    {
+      "index": 23,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 24,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether",
+        "missing-zero-check"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 25,
+      "truth": [],
+      "found": [
+        "shadowing-local"
+      ],
+      "tp": [],
+      "fp": [
+        "shadowing-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 26,
+      "truth": [
+        "locked-ether",
+        "reentrancy-no-eth",
+        "unused-return"
+      ],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": "AnalysisError: slither produced no JSON output (exit=1):\nT/slither-chat-bench-mcz5i1we/contract.sol:1:1: Error: Source file requires different compiler version (current compiler is 0.5.17+commit.d19bba13.Darwin.appleclang - note that nightly builds are considered to be strictly less than the release"
+    },
+    {
+      "index": 27,
+      "truth": [],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": "AnalysisError: slither produced no JSON output (exit=1):\nT/slither-chat-bench-l0d15stn/contract.sol:1:1: Error: Source file requires different compiler version (current compiler is 0.5.17+commit.d19bba13.Darwin.appleclang - note that nightly builds are considered to be strictly less than the release"
+    },
+    {
+      "index": 28,
+      "truth": [
+        "divide-before-multiply",
+        "reentrancy-no-eth",
+        "unused-return",
+        "weak-prng"
+      ],
+      "found": [
+        "divide-before-multiply",
+        "events-access",
+        "msg-value-in-nonpayable",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "reentrancy-no-eth",
+        "shadowing-local",
+        "timestamp",
+        "unused-return",
+        "weak-prng"
+      ],
+      "tp": [
+        "divide-before-multiply",
+        "reentrancy-no-eth",
+        "unused-return",
+        "weak-prng"
+      ],
+      "fp": [
+        "events-access",
+        "msg-value-in-nonpayable",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "shadowing-local",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 29,
+      "truth": [
+        "locked-ether",
+        "unchecked-transfer"
+      ],
+      "found": [
+        "locked-ether",
+        "shadowing-local",
+        "unchecked-transfer"
+      ],
+      "tp": [
+        "locked-ether",
+        "unchecked-transfer"
+      ],
+      "fp": [
+        "shadowing-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 30,
+      "truth": [
+        "divide-before-multiply",
+        "locked-ether",
+        "unchecked-transfer"
+      ],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": "AnalysisError: slither produced no JSON output (exit=1):\n00000gn/T/slither-chat-bench-u8mnok3w/contract.sol:7:1: Error: Source file requires different compiler version (current compiler is 0.5.17+commit.d19bba13.Darwin.appleclang - note that nightly builds are considered to be strictly less than the"
+    },
+    {
+      "index": 31,
+      "truth": [
+        "msg-value-loop"
+      ],
+      "found": [
+        "events-maths",
+        "missing-zero-check",
+        "msg-value-loop"
+      ],
+      "tp": [
+        "msg-value-loop"
+      ],
+      "fp": [
+        "events-maths",
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 32,
+      "truth": [
+        "controlled-array-length",
+        "divide-before-multiply",
+        "incorrect-equality",
+        "msg-value-loop",
+        "uninitialized-local",
+        "uninitialized-state"
+      ],
+      "found": [
+        "calls-loop",
+        "controlled-array-length",
+        "divide-before-multiply",
+        "events-access",
+        "incorrect-equality",
+        "missing-zero-check",
+        "msg-value-loop",
+        "uninitialized-local",
+        "uninitialized-state"
+      ],
+      "tp": [
+        "controlled-array-length",
+        "divide-before-multiply",
+        "incorrect-equality",
+        "msg-value-loop",
+        "uninitialized-local",
+        "uninitialized-state"
+      ],
+      "fp": [
+        "calls-loop",
+        "events-access",
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 33,
+      "truth": [
+        "msg-value-loop",
+        "uninitialized-local"
+      ],
+      "found": [
+        "calls-loop",
+        "msg-value-loop",
+        "timestamp",
+        "unused-return"
+      ],
+      "tp": [
+        "msg-value-loop"
+      ],
+      "fp": [
+        "calls-loop",
+        "timestamp",
+        "unused-return"
+      ],
+      "fn": [
+        "uninitialized-local"
+      ],
+      "error": ""
+    },
+    {
+      "index": 34,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 35,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether",
+        "missing-zero-check"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 36,
+      "truth": [],
+      "found": [
+        "events-maths",
+        "missing-zero-check",
+        "timestamp"
+      ],
+      "tp": [],
+      "fp": [
+        "events-maths",
+        "missing-zero-check",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 37,
+      "truth": [],
+      "found": [
+        "shadowing-local"
+      ],
+      "tp": [],
+      "fp": [
+        "shadowing-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 38,
+      "truth": [],
+      "found": [
+        "events-access",
+        "missing-zero-check",
+        "shadowing-local"
+      ],
+      "tp": [],
+      "fp": [
+        "events-access",
+        "missing-zero-check",
+        "shadowing-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 39,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether",
+        "missing-zero-check"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 40,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": "AnalysisError: slither produced no JSON output (exit=1):\n^^^^^^^^^^^\n\n\n0.7.6: Invalid solc compilation Error: Source file requires different compiler version (current compiler is 0.7.6+commit.7338295f.Darwin.appleclang) - note that nightly builds are considered to be strictly less than the released "
+    },
+    {
+      "index": 41,
+      "truth": [],
+      "found": [],
+      "tp": [],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 42,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 43,
+      "truth": [
+        "weak-prng"
+      ],
+      "found": [
+        "calls-loop",
+        "reentrancy-events",
+        "timestamp",
+        "weak-prng"
+      ],
+      "tp": [
+        "weak-prng"
+      ],
+      "fp": [
+        "calls-loop",
+        "reentrancy-events",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 44,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether",
+        "missing-zero-check"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 45,
+      "truth": [],
+      "found": [
+        "shadowing-local",
+        "timestamp"
+      ],
+      "tp": [],
+      "fp": [
+        "shadowing-local",
+        "timestamp"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 46,
+      "truth": [
+        "locked-ether",
+        "unchecked-transfer"
+      ],
+      "found": [
+        "locked-ether",
+        "shadowing-local",
+        "unchecked-transfer"
+      ],
+      "tp": [
+        "locked-ether",
+        "unchecked-transfer"
+      ],
+      "fp": [
+        "shadowing-local"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 47,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 48,
+      "truth": [
+        "locked-ether"
+      ],
+      "found": [
+        "locked-ether",
+        "missing-zero-check"
+      ],
+      "tp": [
+        "locked-ether"
+      ],
+      "fp": [
+        "missing-zero-check"
+      ],
+      "fn": [],
+      "error": ""
+    },
+    {
+      "index": 49,
+      "truth": [
+        "divide-before-multiply",
+        "locked-ether",
+        "reentrancy-no-eth",
+        "unchecked-transfer",
+        "unused-return"
+      ],
+      "found": [
+        "divide-before-multiply",
+        "locked-ether",
+        "missing-zero-check",
+        "reentrancy-benign",
+        "reentrancy-events",
+        "reentrancy-no-eth",
+        "unchecked-transfer",
+        "unused-return"
+      ],
+      "tp": [
+        "divide-before-multiply",
+        "locked-ether",
+        "reentrancy-no-eth",
+        "unchecked-transfer",
+        "unused-return"
+      ],
+      "fp": [
+        "missing-zero-check",
+        "reentrancy-benign",
+        "reentrancy-events"
+      ],
+      "fn": [],
+      "error": ""
+    }
+  ]
+}

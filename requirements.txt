@@ -1,0 +1,14 @@
+# Core pipeline (always required)
+slither-analyzer>=0.10.0
+click>=8.1
+rich>=13.0
+huggingface_hub>=0.24
+pandas>=2.0
+pyarrow>=14.0
+
+# Hugging Face zero-shot severity backend (--backend hf)
+# transformers>=4.40
+# torch>=2.0
+
+# Development
+pytest>=8.0

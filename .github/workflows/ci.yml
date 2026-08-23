@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest
+          pip install solc-select
+          solc-select install 0.8.26
+          solc-select use 0.8.26
+          echo "$HOME/.solc-select/artifacts" >> "$GITHUB_PATH"
+
+      - name: Sanity — solc & slither present
+        run: |
+          solc --version
+          slither --version
+
+      - name: Unit tests (offline, fast)
+        run: python -m pytest tests/ -q -m "not slow" -k "not audit"
+
+      - name: Integration — shipped vulnerable examples must be flagged
+        run: python -m pytest tests/test_audit_examples.py tests/test_cli.py -q
+
+      - name: Smoke — CLI end-to-end on an example
+        run: |
+          slither-chat audit examples/vault.sol --backend rule --plain | grep -q "reentrancy-eth"
+          slither-chat audit examples/vault.sol --backend rule --markdown /tmp/report.md
+          test -s /tmp/report.md
+          slither-chat audit examples/gateway.sol --backend rule --plain | grep -q "tx-origin"
+          slither-chat benchmark --limit 3 --json-out /tmp/bench.json
+          python - <<'EOF'
+          import json
+          d = json.load(open("/tmp/bench.json"))
+          assert d["summary"]["analyzed"] >= 0
+          assert "precision" in d["summary"]
+          print("benchmark smoke OK:", d["summary"])
+          EOF
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: ruff lint
+        run: |
+          pip install ruff
+          ruff check slither_chat tests scripts --output-format=github
