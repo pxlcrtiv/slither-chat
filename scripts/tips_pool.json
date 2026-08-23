@@ -1,0 +1,217 @@
+[
+  {
+    "title": "Start every audit with the reentrancy detectors — they are still #1",
+    "body": "Reentrancy remains the most exploited Solidity bug class. Slither ships two detectors: `reentrancy-eth` (value transfers, incl. read-only reentrancy shapes) and `reentrancy-no-eth`. Run both before anything else, and never skip the read-only variant: a view function that reads state written by a later call is a classic oracle for reentrancy.",
+    "command": "slither contracts/Token.sol --detect reentrancy-eth,reentrancy-no-eth"
+  },
+  {
+    "title": "CEI — Checks, Effects, Interactions — is a linter-able rule",
+    "body": "Every function that moves value should do: checks (require/if), then effects (state writes), then interactions (external calls). Slither's `reentrancy-*` detectors fire precisely when a state write happens *after* an external call, which is the CEI violation. Fix by reordering, not by adding mutexes.",
+    "command": "slither-chat audit contracts/Token.sol"
+  },
+  {
+    "title": "tx.origin is an authentication smell",
+    "body": "Using `tx.origin` for authorization lets any contract you interact with impersonate you (phishing-style attacks: user calls a malicious contract, which calls your contract, and tx.origin is the user). Use `msg.sender`. Slither flags this with the `tx-origin` detector — treat it as a hard fail in audits.",
+    "command": "slither . --detect tx-origin"
+  },
+  {
+    "title": "Unchecked external-call return values are silent failures",
+    "body": "`target.call(...)` and low-level `send` return a bool you almost never check. A failed call then looks like success, corrupting caller logic. Wrap low-level calls in a helper that reverts on false, or use the high-level interface where the compiler reverts for you. The detector `unchecked-lowlevel` and `unchecked-send` find these.",
+    "command": "slither . --detect unchecked-lowlevel,unchecked-send"
+  },
+  {
+    "title": "Arithmetic overflow is only 'solved' if the pragma is 0.8.x",
+    "body": "Solidity < 0.8 silently wraps arithmetic. If a contract pins `pragma solidity ^0.7.0` for deployment, every `+ - * /` is a potential overflow — Slither's `arithmetic` detector maps all of them. On 0.8+, the danger moved into `unchecked {}` blocks, so audit those specifically.",
+    "command": "slither . --detect arithmetic"
+  },
+  {
+    "title": "Access control lives in three places — check all of them",
+    "body": "Missing `onlyOwner` is the classic, but also check: (1) functions that should be admin-only but are public, (2) init functions that any caller can front-run to become the admin (see `initializer` detector), (3) `selfdestruct` reachable by non-owners. Slither: `missing-modifier`, `initializer`, `controlled-selfdestruct`.",
+    "command": "slither . --detect missing-modifier,initializer,controlled-selfdestruct"
+  },
+  {
+    "title": "Front-running: order-dependent transactions need commit-reveal",
+    "body": "Any transaction whose profit depends on being early (auctions, token swaps, reveals) will be front-run by bots. For auctions, use commit-reveal (hash submitted first, value revealed later). For swaps, enforce slippage limits. Auditors flag 'no slippage parameter' as high severity even when 'users can choose' — because they can't choose fast enough.",
+    "command": "slither . --detect assembly  # and review the auction/reveal flow manually"
+  },
+  {
+    "title": "Spot-price oracles are a flash-loan away from a rug",
+    "body": "Reading `pair.getReserves()` or `pool.balanceOf()` as a price source lets a flash loan move the price mid-transaction. Use time-weighted (TWAP) oracles (Uniswap v3 `consult`, Chainlink) and add a staleness check. If a contract prices collateral against the DEX it also trades on, the auditor will give it a red flag.",
+    "command": "slither-chat audit contracts/Lending.sol"
+  },
+  {
+    "title": "State-variable shadowing silently splits storage",
+    "body": "An inherited contract redeclaring a parent's state variable gets an independent storage slot — reads and writes go to different places depending on which contract's view you call. The `shadowing-state` and `shadowing-abstract` detectors find every case. Rename or use an explicit getter.",
+    "command": "slither . --detect shadowing-state,shadowing-abstract"
+  },
+  {
+    "title": "Default visibility: a state variable without a keyword is public",
+    "body": "State variables default to `public` (and internal visibility for functions is explicit). A public `address owner` is harmless alone but combined with a missing setter check is a takeover. More dangerous: `public` arrays of structs leak whole storage. Declare `private` or `internal` explicitly — the `state-variable-default-visibility` detector enforces it.",
+    "command": "slither . --detect state-variable-default-visibility"
+  },
+  {
+    "title": "Uninitialized storage pointers read arbitrary slots",
+    "body": "A local variable of storage pointer type that is never assigned (e.g. `User storage u;`) points at slot 0 — writes clobber the first state variable, reads leak it. This is one of the few Slither findings that is almost always exploitable when it fires. Fix: always initialize the pointer.",
+    "command": "slither . --detect uninitialized-storage"
+  },
+  {
+    "title": "delegatecall is a storage-collision weapon",
+    "body": "`delegatecall` runs foreign code in your storage layout. Differences in slot order between caller and callee silently corrupt state, and `controlled-delegatecall` (user-controlled target) is a full contract takeover. Auditors treat any delegatecall to a non-immutable, non-admin target as critical.",
+    "command": "slither . --detect controlled-delegatecall"
+  },
+  {
+    "title": "selfdestruct: audit who can call it and what it breaks",
+    "body": "Even with `onlyOwner`, selfdestruct sends the whole balance to the owner and deletes code — breaking integrations that assume your address is a contract forever. Slither's `controlled-selfdestruct` with the kill-switch pattern review covers the common case; also check `suicide` in assembly.",
+    "command": "slither . --detect controlled-selfdestruct"
+  },
+  {
+    "title": "send() vs transfer() vs call(): 2300 gas is a footgun",
+    "body": "`transfer`/`send` forward 2300 gas — enough for a plain recipient, not enough for a contract that logs or has a receive() with logic. Wallets and multisigs will fail to receive funds, permanently bricking withdrawals. Prefer call + reentrancy protection, or document the 2300 assumption.",
+    "command": "slither . --detect suicidal,unchecked-send  # and review withdrawal paths by hand"
+  },
+  {
+    "title": "ERC-777 hooks re-open the reentrancy door",
+    "body": "ERC-777 tokensNotify receivers on transfer, letting a malicious receiver re-enter mid-transfer — this is how the famous 2019 imBTC drain worked. If your protocol integrates an ERC-777 (or any hook-capable token), reentrancy guards must cover the token transfer itself, not just the surrounding function.",
+    "command": "slither . --detect reentrancy-eth  # on every transfer handling path"
+  },
+  {
+    "title": "Gas griefing: loops bounded by attacker-controlled input",
+    "body": "A loop over `pendingWithdrawals.length` where the attacker controls the array size lets them push thousands of entries and make your function cost more than the block gas limit — permanent DoS. Cap array sizes, batch with page offsets, or compute per-user instead of global. Slither's `costly-loop` flags them.",
+    "command": "slither . --detect costly-loop"
+  },
+  {
+    "title": "Missing events strangle monitoring and forensics",
+    "body": "No event on transfer, deposit, or admin change means no off-chain tracking, no alerting, and no way to reconstruct an attack later. Self-audit rule: every state-changing function emits an event. Slither's `events-maths` and `events-access` detectors remind you on the arithmetic and access-control sides.",
+    "command": "slither . --detect events-maths,events-access"
+  },
+  {
+    "title": "Floating pragma is a deployment lottery",
+    "body": "`pragma solidity ^0.8.0;` compiles to *whatever compiler the deployer has*. A patch release can change codegen, or worse, your CI verifies one version and you deploy another. Pin the exact version for anything that ships; the `pragma` detector lists every file and its constraint.",
+    "command": "slither . --detect pragma"
+  },
+  {
+    "title": "Dead code is how audit findings hide",
+    "body": "Functions nobody calls, modifiers never applied, internal helpers orphaned by refactors — each is a place where intent and reality diverge, and auditors waste budget proving it's unreachable. `dead-code` plus `unused-return` makes the sweep mechanical.",
+    "command": "slither . --detect dead-code,unused-return"
+  },
+  {
+    "title": "assert() vs require(): knows the gas refund difference",
+    "body": "`assert` failures consume all provided gas (for the invalid opcode), `require` refunds the remainder. Use `require` for user-input and invariant checks you expect to actually fail; reserve `assert` for internal invariants that should never break. Slither's `assert-state-changing` and `incorrect-equality` catch misuse patterns.",
+    "command": "slither . --detect incorrect-equality"
+  },
+  {
+    "title": "fallback vs receive: know which one fires",
+    "body": "`receive()` handles plain ETH transfers, `fallback()` catches everything else including calldata. A contract with only `fallback()` still accepts ETH silently, and a fallback that does nontrivial work can be forced to run via a zero-data call, gassing the sender. The `uninitialized-state` style audit checklist covers the layout; check both functions for logic.",
+    "command": "slither . --detect locked-ether,unused-state"
+  },
+  {
+    "title": "The approve/transferFrom race is why increaseAllowance exists",
+    "body": "`approve(X, 100)` then `X` spends 100, then `approve(X, 100)` again — the second approve can be sandwiched: `X` spends the remaining allowance before your new value lands. Use `increaseAllowance`/`decreaseAllowance`. Slither's `controlled-delegatecall` is unrelated, but its sibling audit of token wrappers catches naive re-implementations.",
+    "command": "slither . --detect arbitrary-send-erc20"
+  },
+  {
+    "title": "Upgradeable proxies: storage layout can never change",
+    "body": "With proxy + implementation, the implementation's variables must keep the exact same slot order forever — inserting a variable shifts every downstream slot to garbage. The `slither-upgrade` plugin (truffle/hardhat variants) compares proxy vs implementation and flags mismatches automatically.",
+    "command": "slither . --detect shadowing-state --filter-paths lib  # plus slither-upgrade in CI"
+  },
+  {
+    "title": "The initializer can be front-run — call it in the same tx as deploy",
+    "body": "An uninitalized proxy is owned by nobody — anyone can call `initialize()` first with their own address. Deploy and initialize atomically (constructor of a factory, or deploy script that calls init in the same transaction). The `initializer` detector finds init functions callable by anyone.",
+    "command": "slither . --detect initializer"
+  },
+  {
+    "title": "block.timestamp is manipulable within ~15 seconds",
+    "body": "Validators can shift timestamp a little — enough to game 'time-lock of 1 block', or to flip a threshold at the boundary. Never use timestamps for randomness or tight racing conditions. Slither's `assembly`/`timestamp` manual review: search for `block.timestamp`/`now` in every comparison, not just in random functions.",
+    "command": "slither . --detect assembly && grep -rn 'block.timestamp\\|now' contracts/"
+  },
+  {
+    "title": "prevrandao is not randomness — it is miner-influenced entropy",
+    "body": "Post-Merge, `block.prevrandao` (formerly `block.difficulty`) looks random but validators can bias it, and MEV bots can reorder around it. Any lottery, NFT reveal, or NFT mint that uses it is exploitable. Real options: Chainlink VRF, commit-reveal, or verifiable delay functions. Auditors will flag prevrandao-derived randomness as medium-or-higher.",
+    "command": "grep -rn 'prevrandao\\|difficulty' contracts/"
+  },
+  {
+    "title": "Oracle staleness: a frozen oracle is an oracle",
+    "body": "Chainlink aggregators expose `latestRoundData()` — check that `updatedAt` is recent and `answeredInRound >= roundId`, otherwise a stalled aggregator returns last year's price and your liquidations suddenly fire everywhere. This exact bug (missing staleness check) has drained several lending protocols.",
+    "command": "grep -rn 'latestRoundData' contracts/ && grep -rn 'updatedAt' contracts/"
+  },
+  {
+    "title": "Slippage protection is not optional in swaps",
+    "body": "A swap without `minAmountOut`/`maxInput` lets any sandwich bot take the difference. 'User could set it themselves' fails in practice: most users accept defaults. Enforce a sane default and expose the parameter. Audit checklist: every swap entry point has slippage machinery.",
+    "command": "slither-chat audit contracts/SwapRouter.sol"
+  },
+  {
+    "title": "Emergency pause: the cheapest insurance in the codebase",
+    "body": "A pausable contract (OpenZeppelin `Pausable`) costs ~20 lines and turns a live exploit into a 30-second response. Without it, a found vulnerability means a race between you and the attacker. Combine with `onlyOwner` and a time-delayed or multi-sig admin so a key compromise can't pause permanently.",
+    "command": "slither . --detect missing-modifier  # then add Pausable to critical paths"
+  },
+  {
+    "title": "Rate limiting and circuit breakers stop brute-force drains",
+    "body": "For withdrawal-heavy protocols, a per-block/per-hour cap converts 'drain everything in one tx' into 'drain must wait N hours', buying time for alarms and pauses. Cheap to implement, disproportionately effective. Slither can't auto-find this — put it on the manual checklist.",
+    "command": "slither-chat audit contracts/Withdrawals.sol"
+  },
+  {
+    "title": "Trusted automation: keepers are an attack surface",
+    "body": "If a keeper or bot triggers your functions, anyone can usually trigger them too — so every keeper-called function must be safe when called by a random address at a random time. Audit keeper entry points for: griefing loops, front-running of the trigger, and state assumptions about who called.",
+    "command": "slither . --detect controlled-delegatecall,missing-modifier"
+  },
+  {
+    "title": "Library shadowing: an attacker can't, but a bad merge can",
+    "body": "Two imports naming different contracts with the same identifier is a compile error, but a *library redeclared* or a `using ... for` pointing at a wrong library silently changes behavior. Slither's `assembly` and `controlled-delegatecall` detectors plus a careful diff-review of library usage catches the merge-time variant.",
+    "command": "slither . --detect controlled-delegatecall"
+  },
+  {
+    "title": "Pack your structs: storage is the biggest runtime cost",
+    "body": "Storage is 20,000 gas per 32-byte slot written. Order struct fields so they pack: uint128+uint128 in one slot, address+uint96 in another, bools together. Slither's `constable-states` and the gas report from `forge snapshot` quantify it. Same order matters for layout-compat in upgrades.",
+    "command": "slither . --detect constable-states && forge snapshot"
+  },
+  {
+    "title": "indexed event parameters are your free index",
+    "body": "Only `indexed` (max 3) parameters can be filtered by off-chain indexers. Non-indexed args are invisible to topic filters — put the address/ID you query by in indexed position. This is a data-availability finding, not just style: a registry nobody can query is a registry nobody trusts.",
+    "command": "grep -rn 'event ' contracts/ | head -20"
+  },
+  {
+    "title": "memory vs storage: the copy semantics that eat funds",
+    "body": "`storage` refs alias the source (writes persist), `memory` copies (writes vanish). Assigning `User storage u = users[i]` then mutating `u.balance` without a second write is a silent no-op that withdraws show as 'successful' but never move funds. The `uninitialized-storage` and `assembly` detectors help, but a reviewer pass over every struct mutation is mandatory.",
+    "command": "slither . --detect uninitialized-storage"
+  },
+  {
+    "title": "Modifier order: require() before _; — always",
+    "body": "Modifiers run top-down; `_` is the function body. A modifier that does work after `_` runs *after* state changes, turning `nonReentrant`-style guards into decorations. Convention: all checks above `_`, all effects below, never `_` twice. Slither's `missing-zero-check` adds the classic first-line-of-modifier check.",
+    "command": "slither . --detect missing-zero-check"
+  },
+  {
+    "title": "The 10-minute audit checklist",
+    "body": "1) `reentrancy-eth/no-eth` 2) `tx-origin` 3) `unchecked-lowlevel/send` 4) `arithmetic` 5) `missing-modifier` 6) `shadowing-*` 7) `uninitialized-storage` 8) `controlled-delegatecall/selfdestruct` 9) `pragma` + `dead-code` 10) run slither-chat for explanations, patch hints, and the full triage report. Ten minutes, every contract, every PR.",
+    "command": "slither . --detect all && slither-chat audit . --out report.md"
+  },
+  {
+    "title": "A detector firing is a story, not a verdict",
+    "body": "Slither is precise but context-blind: 'reentrancy-eth' on an admin-only function may be benign; 'arithmetic' on a 0.8 contract may be dead code. The skill is triage — reproduce the path, decide reachability and impact, write the fix. That's exactly what slither-chat's KB and HF tagger accelerate.",
+    "command": "slither-chat audit contracts/ --severity high"
+  },
+  {
+    "title": "Audit the diff, not just the repo",
+    "body": "Historical bugs are fixed; new code is where findings live. Point the pipeline at the PR diff: audit only changed functions plus everything they call. Slither's `--filter-paths` + git diff to a temp file gives a focused run in seconds instead of a full-repo slog.",
+    "command": "git diff main...HEAD > /tmp/diff.sol && slither /tmp/diff.sol --detect all"
+  },
+  {
+    "title": "Severity is reachability × impact",
+    "body": "Two rules of thumb for report quality: (1) a finding without a concrete attack path is a note, not a bug; (2) 'high' means funds or control, 'medium' means data or DoS, 'low' means clarity. Consistent grading makes the whole report trustworthy — recruiters and reviewers can smell a severity-inflated audit.",
+    "command": "slither-chat benchmark --out docs/benchmark.json"
+  },
+  {
+    "title": "Keep the toolchain pinned and reproducible",
+    "body": "Slither output depends on slither and solc versions. Pin both (requirements.txt + solc-select) so an audit from January reproduces in June — for your own regressions and for anyone reviewing your report. slither-chat does this via pyproject + the documented solc setup.",
+    "command": "solc-select install 0.8.26 && solc-select use 0.8.26"
+  },
+  {
+    "title": "Foundry fuzzing is the second half of the audit",
+    "body": "Slither finds known patterns; fuzzing finds unknown ones. A 30-property invariant suite (no reentrancy, balances conserved, owner only) run with `forge test --fuzz-runs 50000` routinely surfaces what static analysis missed — value overflow under weird orderings, off-by-ones in pagination, oracle edge states.",
+    "command": "forge test --fuzz-runs 50000"
+  },
+  {
+    "title": "Green today, greppable forever",
+    "body": "Every finding, even the fixed ones, earns a line in the audit notes with the detector name, path, and verdict — so next month's audit is a diff, not a re-discovery. This file is the same idea: one dated tip a day beats a 400-line security essay nobody reads.",
+    "command": "slither-chat audit . --format markdown --out docs/audit-$(date +%F).md"
+  }
+]
