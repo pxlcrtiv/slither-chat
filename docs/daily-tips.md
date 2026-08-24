@@ -12,3 +12,10 @@ Missing `onlyOwner` is the classic, but also check: (1) functions that should be
 
 > `slither . --detect missing-modifier,initializer,controlled-selfdestruct`
 
+
+## 2026-08-24 — Tip of the day: Front-running: order-dependent transactions need commit-reveal
+
+Any transaction whose profit depends on being early (auctions, token swaps, reveals) will be front-run by bots. For auctions, use commit-reveal (hash submitted first, value revealed later). For swaps, enforce slippage limits. Auditors flag 'no slippage parameter' as high severity even when 'users can choose' — because they can't choose fast enough.
+
+> `slither . --detect assembly  # and review the auction/reveal flow manually`
+
