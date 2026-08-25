@@ -19,3 +19,10 @@ Any transaction whose profit depends on being early (auctions, token swaps, reve
 
 > `slither . --detect assembly  # and review the auction/reveal flow manually`
 
+
+## 2026-08-25 — Tip of the day: Spot-price oracles are a flash-loan away from a rug
+
+Reading `pair.getReserves()` or `pool.balanceOf()` as a price source lets a flash loan move the price mid-transaction. Use time-weighted (TWAP) oracles (Uniswap v3 `consult`, Chainlink) and add a staleness check. If a contract prices collateral against the DEX it also trades on, the auditor will give it a red flag.
+
+> `slither-chat audit contracts/Lending.sol`
+
