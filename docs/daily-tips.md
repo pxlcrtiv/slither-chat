@@ -26,3 +26,10 @@ Reading `pair.getReserves()` or `pool.balanceOf()` as a price source lets a flas
 
 > `slither-chat audit contracts/Lending.sol`
 
+
+## 2026-08-26 — Tip of the day: State-variable shadowing silently splits storage
+
+An inherited contract redeclaring a parent's state variable gets an independent storage slot — reads and writes go to different places depending on which contract's view you call. The `shadowing-state` and `shadowing-abstract` detectors find every case. Rename or use an explicit getter.
+
+> `slither . --detect shadowing-state,shadowing-abstract`
+
