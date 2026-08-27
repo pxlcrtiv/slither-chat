@@ -33,3 +33,10 @@ An inherited contract redeclaring a parent's state variable gets an independent 
 
 > `slither . --detect shadowing-state,shadowing-abstract`
 
+
+## 2026-08-27 — Tip of the day: Default visibility: a state variable without a keyword is public
+
+State variables default to `public` (and internal visibility for functions is explicit). A public `address owner` is harmless alone but combined with a missing setter check is a takeover. More dangerous: `public` arrays of structs leak whole storage. Declare `private` or `internal` explicitly — the `state-variable-default-visibility` detector enforces it.
+
+> `slither . --detect state-variable-default-visibility`
+
