@@ -40,3 +40,10 @@ State variables default to `public` (and internal visibility for functions is ex
 
 > `slither . --detect state-variable-default-visibility`
 
+
+## 2026-08-28 — Tip of the day: Uninitialized storage pointers read arbitrary slots
+
+A local variable of storage pointer type that is never assigned (e.g. `User storage u;`) points at slot 0 — writes clobber the first state variable, reads leak it. This is one of the few Slither findings that is almost always exploitable when it fires. Fix: always initialize the pointer.
+
+> `slither . --detect uninitialized-storage`
+
