@@ -54,3 +54,10 @@ A local variable of storage pointer type that is never assigned (e.g. `User stor
 
 > `slither . --detect controlled-delegatecall`
 
+
+## 2026-08-30 — Tip of the day: selfdestruct: audit who can call it and what it breaks
+
+Even with `onlyOwner`, selfdestruct sends the whole balance to the owner and deletes code — breaking integrations that assume your address is a contract forever. Slither's `controlled-selfdestruct` with the kill-switch pattern review covers the common case; also check `suicide` in assembly.
+
+> `slither . --detect controlled-selfdestruct`
+
