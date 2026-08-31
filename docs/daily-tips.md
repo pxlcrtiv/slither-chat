@@ -61,3 +61,10 @@ Even with `onlyOwner`, selfdestruct sends the whole balance to the owner and del
 
 > `slither . --detect controlled-selfdestruct`
 
+
+## 2026-08-31 — Tip of the day: send() vs transfer() vs call(): 2300 gas is a footgun
+
+`transfer`/`send` forward 2300 gas — enough for a plain recipient, not enough for a contract that logs or has a receive() with logic. Wallets and multisigs will fail to receive funds, permanently bricking withdrawals. Prefer call + reentrancy protection, or document the 2300 assumption.
+
+> `slither . --detect suicidal,unchecked-send  # and review withdrawal paths by hand`
+
