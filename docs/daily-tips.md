@@ -68,3 +68,10 @@ Even with `onlyOwner`, selfdestruct sends the whole balance to the owner and del
 
 > `slither . --detect suicidal,unchecked-send  # and review withdrawal paths by hand`
 
+
+## 2026-09-01 — Tip of the day: ERC-777 hooks re-open the reentrancy door
+
+ERC-777 tokensNotify receivers on transfer, letting a malicious receiver re-enter mid-transfer — this is how the famous 2019 imBTC drain worked. If your protocol integrates an ERC-777 (or any hook-capable token), reentrancy guards must cover the token transfer itself, not just the surrounding function.
+
+> `slither . --detect reentrancy-eth  # on every transfer handling path`
+
