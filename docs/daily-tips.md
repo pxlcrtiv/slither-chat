@@ -75,3 +75,10 @@ ERC-777 tokensNotify receivers on transfer, letting a malicious receiver re-ente
 
 > `slither . --detect reentrancy-eth  # on every transfer handling path`
 
+
+## 2026-09-02 — Tip of the day: Gas griefing: loops bounded by attacker-controlled input
+
+A loop over `pendingWithdrawals.length` where the attacker controls the array size lets them push thousands of entries and make your function cost more than the block gas limit — permanent DoS. Cap array sizes, batch with page offsets, or compute per-user instead of global. Slither's `costly-loop` flags them.
+
+> `slither . --detect costly-loop`
+
