@@ -82,3 +82,10 @@ A loop over `pendingWithdrawals.length` where the attacker controls the array si
 
 > `slither . --detect costly-loop`
 
+
+## 2026-09-03 — Tip of the day: Missing events strangle monitoring and forensics
+
+No event on transfer, deposit, or admin change means no off-chain tracking, no alerting, and no way to reconstruct an attack later. Self-audit rule: every state-changing function emits an event. Slither's `events-maths` and `events-access` detectors remind you on the arithmetic and access-control sides.
+
+> `slither . --detect events-maths,events-access`
+
