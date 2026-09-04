@@ -96,3 +96,10 @@ No event on transfer, deposit, or admin change means no off-chain tracking, no a
 
 > `slither . --detect pragma`
 
+
+## 2026-09-05 — Tip of the day: Dead code is how audit findings hide
+
+Functions nobody calls, modifiers never applied, internal helpers orphaned by refactors — each is a place where intent and reality diverge, and auditors waste budget proving it's unreachable. `dead-code` plus `unused-return` makes the sweep mechanical.
+
+> `slither . --detect dead-code,unused-return`
+
