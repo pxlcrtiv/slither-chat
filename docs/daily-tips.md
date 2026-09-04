@@ -89,3 +89,10 @@ No event on transfer, deposit, or admin change means no off-chain tracking, no a
 
 > `slither . --detect events-maths,events-access`
 
+
+## 2026-09-04 — Tip of the day: Floating pragma is a deployment lottery
+
+`pragma solidity ^0.8.0;` compiles to *whatever compiler the deployer has*. A patch release can change codegen, or worse, your CI verifies one version and you deploy another. Pin the exact version for anything that ships; the `pragma` detector lists every file and its constraint.
+
+> `slither . --detect pragma`
+
