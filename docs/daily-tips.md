@@ -103,3 +103,10 @@ Functions nobody calls, modifiers never applied, internal helpers orphaned by re
 
 > `slither . --detect dead-code,unused-return`
 
+
+## 2026-09-06 — Tip of the day: assert() vs require(): knows the gas refund difference
+
+`assert` failures consume all provided gas (for the invalid opcode), `require` refunds the remainder. Use `require` for user-input and invariant checks you expect to actually fail; reserve `assert` for internal invariants that should never break. Slither's `assert-state-changing` and `incorrect-equality` catch misuse patterns.
+
+> `slither . --detect incorrect-equality`
+
