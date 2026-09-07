@@ -110,3 +110,10 @@ Functions nobody calls, modifiers never applied, internal helpers orphaned by re
 
 > `slither . --detect incorrect-equality`
 
+
+## 2026-09-07 — Tip of the day: fallback vs receive: know which one fires
+
+`receive()` handles plain ETH transfers, `fallback()` catches everything else including calldata. A contract with only `fallback()` still accepts ETH silently, and a fallback that does nontrivial work can be forced to run via a zero-data call, gassing the sender. The `uninitialized-state` style audit checklist covers the layout; check both functions for logic.
+
+> `slither . --detect locked-ether,unused-state`
+
