@@ -117,3 +117,10 @@ Functions nobody calls, modifiers never applied, internal helpers orphaned by re
 
 > `slither . --detect locked-ether,unused-state`
 
+
+## 2026-09-08 — Tip of the day: The approve/transferFrom race is why increaseAllowance exists
+
+`approve(X, 100)` then `X` spends 100, then `approve(X, 100)` again — the second approve can be sandwiched: `X` spends the remaining allowance before your new value lands. Use `increaseAllowance`/`decreaseAllowance`. Slither's `controlled-delegatecall` is unrelated, but its sibling audit of token wrappers catches naive re-implementations.
+
+> `slither . --detect arbitrary-send-erc20`
+
