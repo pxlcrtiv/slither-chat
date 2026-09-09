@@ -124,3 +124,10 @@ Functions nobody calls, modifiers never applied, internal helpers orphaned by re
 
 > `slither . --detect arbitrary-send-erc20`
 
+
+## 2026-09-09 — Tip of the day: Upgradeable proxies: storage layout can never change
+
+With proxy + implementation, the implementation's variables must keep the exact same slot order forever — inserting a variable shifts every downstream slot to garbage. The `slither-upgrade` plugin (truffle/hardhat variants) compares proxy vs implementation and flags mismatches automatically.
+
+> `slither . --detect shadowing-state --filter-paths lib  # plus slither-upgrade in CI`
+
