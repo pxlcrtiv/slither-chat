@@ -131,3 +131,10 @@ With proxy + implementation, the implementation's variables must keep the exact 
 
 > `slither . --detect shadowing-state --filter-paths lib  # plus slither-upgrade in CI`
 
+
+## 2026-09-10 — Tip of the day: The initializer can be front-run — call it in the same tx as deploy
+
+An uninitalized proxy is owned by nobody — anyone can call `initialize()` first with their own address. Deploy and initialize atomically (constructor of a factory, or deploy script that calls init in the same transaction). The `initializer` detector finds init functions callable by anyone.
+
+> `slither . --detect initializer`
+
