@@ -138,3 +138,10 @@ An uninitalized proxy is owned by nobody — anyone can call `initialize()` firs
 
 > `slither . --detect initializer`
 
+
+## 2026-09-11 — Tip of the day: block.timestamp is manipulable within ~15 seconds
+
+Validators can shift timestamp a little — enough to game 'time-lock of 1 block', or to flip a threshold at the boundary. Never use timestamps for randomness or tight racing conditions. Slither's `assembly`/`timestamp` manual review: search for `block.timestamp`/`now` in every comparison, not just in random functions.
+
+> `slither . --detect assembly && grep -rn 'block.timestamp\|now' contracts/`
+
