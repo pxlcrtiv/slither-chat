@@ -145,3 +145,10 @@ Validators can shift timestamp a little — enough to game 'time-lock of 1 block
 
 > `slither . --detect assembly && grep -rn 'block.timestamp\|now' contracts/`
 
+
+## 2026-09-12 — Tip of the day: prevrandao is not randomness — it is miner-influenced entropy
+
+Post-Merge, `block.prevrandao` (formerly `block.difficulty`) looks random but validators can bias it, and MEV bots can reorder around it. Any lottery, NFT reveal, or NFT mint that uses it is exploitable. Real options: Chainlink VRF, commit-reveal, or verifiable delay functions. Auditors will flag prevrandao-derived randomness as medium-or-higher.
+
+> `grep -rn 'prevrandao\|difficulty' contracts/`
+
