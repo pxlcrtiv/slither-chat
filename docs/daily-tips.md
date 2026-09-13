@@ -152,3 +152,10 @@ Post-Merge, `block.prevrandao` (formerly `block.difficulty`) looks random but va
 
 > `grep -rn 'prevrandao\|difficulty' contracts/`
 
+
+## 2026-09-13 — Tip of the day: Oracle staleness: a frozen oracle is an oracle
+
+Chainlink aggregators expose `latestRoundData()` — check that `updatedAt` is recent and `answeredInRound >= roundId`, otherwise a stalled aggregator returns last year's price and your liquidations suddenly fire everywhere. This exact bug (missing staleness check) has drained several lending protocols.
+
+> `grep -rn 'latestRoundData' contracts/ && grep -rn 'updatedAt' contracts/`
+
