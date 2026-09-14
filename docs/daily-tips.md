@@ -159,3 +159,10 @@ Chainlink aggregators expose `latestRoundData()` — check that `updatedAt` is r
 
 > `grep -rn 'latestRoundData' contracts/ && grep -rn 'updatedAt' contracts/`
 
+
+## 2026-09-14 — Tip of the day: Slippage protection is not optional in swaps
+
+A swap without `minAmountOut`/`maxInput` lets any sandwich bot take the difference. 'User could set it themselves' fails in practice: most users accept defaults. Enforce a sane default and expose the parameter. Audit checklist: every swap entry point has slippage machinery.
+
+> `slither-chat audit contracts/SwapRouter.sol`
+
