@@ -166,3 +166,10 @@ A swap without `minAmountOut`/`maxInput` lets any sandwich bot take the differen
 
 > `slither-chat audit contracts/SwapRouter.sol`
 
+
+## 2026-09-15 — Tip of the day: Emergency pause: the cheapest insurance in the codebase
+
+A pausable contract (OpenZeppelin `Pausable`) costs ~20 lines and turns a live exploit into a 30-second response. Without it, a found vulnerability means a race between you and the attacker. Combine with `onlyOwner` and a time-delayed or multi-sig admin so a key compromise can't pause permanently.
+
+> `slither . --detect missing-modifier  # then add Pausable to critical paths`
+
