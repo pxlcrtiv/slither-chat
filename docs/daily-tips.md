@@ -173,3 +173,10 @@ A pausable contract (OpenZeppelin `Pausable`) costs ~20 lines and turns a live e
 
 > `slither . --detect missing-modifier  # then add Pausable to critical paths`
 
+
+## 2026-09-16 — Tip of the day: Rate limiting and circuit breakers stop brute-force drains
+
+For withdrawal-heavy protocols, a per-block/per-hour cap converts 'drain everything in one tx' into 'drain must wait N hours', buying time for alarms and pauses. Cheap to implement, disproportionately effective. Slither can't auto-find this — put it on the manual checklist.
+
+> `slither-chat audit contracts/Withdrawals.sol`
+
