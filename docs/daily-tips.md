@@ -180,3 +180,10 @@ For withdrawal-heavy protocols, a per-block/per-hour cap converts 'drain everyth
 
 > `slither-chat audit contracts/Withdrawals.sol`
 
+
+## 2026-09-17 — Tip of the day: Trusted automation: keepers are an attack surface
+
+If a keeper or bot triggers your functions, anyone can usually trigger them too — so every keeper-called function must be safe when called by a random address at a random time. Audit keeper entry points for: griefing loops, front-running of the trigger, and state assumptions about who called.
+
+> `slither . --detect controlled-delegatecall,missing-modifier`
+
