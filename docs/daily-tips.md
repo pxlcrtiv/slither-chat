@@ -187,3 +187,10 @@ If a keeper or bot triggers your functions, anyone can usually trigger them too 
 
 > `slither . --detect controlled-delegatecall,missing-modifier`
 
+
+## 2026-09-18 — Tip of the day: Library shadowing: an attacker can't, but a bad merge can
+
+Two imports naming different contracts with the same identifier is a compile error, but a *library redeclared* or a `using ... for` pointing at a wrong library silently changes behavior. Slither's `assembly` and `controlled-delegatecall` detectors plus a careful diff-review of library usage catches the merge-time variant.
+
+> `slither . --detect controlled-delegatecall`
+
