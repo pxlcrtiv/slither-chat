@@ -194,3 +194,10 @@ Two imports naming different contracts with the same identifier is a compile err
 
 > `slither . --detect controlled-delegatecall`
 
+
+## 2026-09-19 — Tip of the day: Pack your structs: storage is the biggest runtime cost
+
+Storage is 20,000 gas per 32-byte slot written. Order struct fields so they pack: uint128+uint128 in one slot, address+uint96 in another, bools together. Slither's `constable-states` and the gas report from `forge snapshot` quantify it. Same order matters for layout-compat in upgrades.
+
+> `slither . --detect constable-states && forge snapshot`
+
