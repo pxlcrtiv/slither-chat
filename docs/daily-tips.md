@@ -201,3 +201,10 @@ Storage is 20,000 gas per 32-byte slot written. Order struct fields so they pack
 
 > `slither . --detect constable-states && forge snapshot`
 
+
+## 2026-09-20 — Tip of the day: indexed event parameters are your free index
+
+Only `indexed` (max 3) parameters can be filtered by off-chain indexers. Non-indexed args are invisible to topic filters — put the address/ID you query by in indexed position. This is a data-availability finding, not just style: a registry nobody can query is a registry nobody trusts.
+
+> `grep -rn 'event ' contracts/ | head -20`
+
