@@ -208,3 +208,10 @@ Only `indexed` (max 3) parameters can be filtered by off-chain indexers. Non-ind
 
 > `grep -rn 'event ' contracts/ | head -20`
 
+
+## 2026-09-21 — Tip of the day: memory vs storage: the copy semantics that eat funds
+
+`storage` refs alias the source (writes persist), `memory` copies (writes vanish). Assigning `User storage u = users[i]` then mutating `u.balance` without a second write is a silent no-op that withdraws show as 'successful' but never move funds. The `uninitialized-storage` and `assembly` detectors help, but a reviewer pass over every struct mutation is mandatory.
+
+> `slither . --detect uninitialized-storage`
+
