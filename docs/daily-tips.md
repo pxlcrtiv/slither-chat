@@ -215,3 +215,10 @@ Only `indexed` (max 3) parameters can be filtered by off-chain indexers. Non-ind
 
 > `slither . --detect uninitialized-storage`
 
+
+## 2026-09-22 — Tip of the day: Modifier order: require() before _; — always
+
+Modifiers run top-down; `_` is the function body. A modifier that does work after `_` runs *after* state changes, turning `nonReentrant`-style guards into decorations. Convention: all checks above `_`, all effects below, never `_` twice. Slither's `missing-zero-check` adds the classic first-line-of-modifier check.
+
+> `slither . --detect missing-zero-check`
+
