@@ -222,3 +222,10 @@ Modifiers run top-down; `_` is the function body. A modifier that does work afte
 
 > `slither . --detect missing-zero-check`
 
+
+## 2026-09-23 — Tip of the day: The 10-minute audit checklist
+
+1) `reentrancy-eth/no-eth` 2) `tx-origin` 3) `unchecked-lowlevel/send` 4) `arithmetic` 5) `missing-modifier` 6) `shadowing-*` 7) `uninitialized-storage` 8) `controlled-delegatecall/selfdestruct` 9) `pragma` + `dead-code` 10) run slither-chat for explanations, patch hints, and the full triage report. Ten minutes, every contract, every PR.
+
+> `slither . --detect all && slither-chat audit . --out report.md`
+
