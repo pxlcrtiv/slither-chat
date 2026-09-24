@@ -229,3 +229,10 @@ Modifiers run top-down; `_` is the function body. A modifier that does work afte
 
 > `slither . --detect all && slither-chat audit . --out report.md`
 
+
+## 2026-09-24 — Tip of the day: A detector firing is a story, not a verdict
+
+Slither is precise but context-blind: 'reentrancy-eth' on an admin-only function may be benign; 'arithmetic' on a 0.8 contract may be dead code. The skill is triage — reproduce the path, decide reachability and impact, write the fix. That's exactly what slither-chat's KB and HF tagger accelerate.
+
+> `slither-chat audit contracts/ --severity high`
+
