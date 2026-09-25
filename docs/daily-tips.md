@@ -236,3 +236,10 @@ Slither is precise but context-blind: 'reentrancy-eth' on an admin-only function
 
 > `slither-chat audit contracts/ --severity high`
 
+
+## 2026-09-25 — Tip of the day: Audit the diff, not just the repo
+
+Historical bugs are fixed; new code is where findings live. Point the pipeline at the PR diff: audit only changed functions plus everything they call. Slither's `--filter-paths` + git diff to a temp file gives a focused run in seconds instead of a full-repo slog.
+
+> `git diff main...HEAD > /tmp/diff.sol && slither /tmp/diff.sol --detect all`
+
