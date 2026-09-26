@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architecture Report — /Users/admin/portfolio/repos/slither-chat</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>mermaid{background:transparent;}</style>
+</head>
+<body class="bg-gray-950 text-gray-200 p-6 max-w-5xl mx-auto">
+<h1 class="text-2xl font-bold text-white mb-1">Architecture Report</h1>
+<p class="text-sm text-gray-500 mb-6">/Users/admin/portfolio/repos/slither-chat — scanned 2026-09-26T14:38:14.690706+00:00</p>
+
+<div class="grid grid-cols-3 gap-4 mb-8">
+  <div class="bg-gray-900 rounded-lg p-4 text-center">
+    <div class="text-3xl font-bold text-white">25</div>
+    <div class="text-xs text-gray-500 mt-1">Python files</div>
+  </div>
+  <div class="bg-gray-900 rounded-lg p-4 text-center">
+    <div class="text-3xl font-bold text-white">25</div>
+    <div class="text-xs text-gray-500 mt-1">Modules analyzed</div>
+  </div>
+  <div class="bg-gray-900 rounded-lg p-4 text-center">
+    <div class="text-3xl font-bold text-green-400">0</div>
+    <div class="text-xs text-gray-500 mt-1">Import cycles</div>
+  </div>
+</div>
+
+
+    <div class="bg-gray-900 border border-amber-500/30 rounded-lg p-4 mb-6">
+      <div class="text-sm text-amber-400 font-semibold mb-1">Top recommendation</div>
+      <code class="text-white">tests/test_parser.py</code>
+      <p class="text-sm text-gray-400 mt-1">Shallow module: 8 exports, 67 lines</p>
+      <p class="text-xs text-gray-600 mt-2">Run the full <code>improve-codebase-architecture</code> skill on this repo to grill through the deepening.</p>
+    </div>
+
+        <h2 class="text-lg font-semibold text-white mt-8 mb-3">Shallow Modules</h2>
+        
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <div class="flex justify-between items-start mb-3">
+            <code class="text-sm text-amber-400">tests/test_parser.py</code>
+            <span class="inline-block px-2 py-0.5 rounded text-xs font-bold text-white bg-amber-500">Worth exploring</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">BEFORE — shallow</div>
+              <div class="text-gray-300">8 exports (test_severity_mapping, test_normalize_finds_reentrancy, test_normalize_dedup, test_sorted_order)<br>67 lines, ? decisions</div>
+            </div>
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">AFTER — deepened</div>
+              <div class="text-gray-300">Hide internals behind a seam<br>Reduce public surface by half</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-600 mt-2">Leverage: callers depend on fewer names. Locality: logic moves behind the interface.</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <div class="flex justify-between items-start mb-3">
+            <code class="text-sm text-amber-400">tests/conftest.py</code>
+            <span class="inline-block px-2 py-0.5 rounded text-xs font-bold text-white bg-amber-500">Worth exploring</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">BEFORE — shallow</div>
+              <div class="text-gray-300">5 exports (load_fixture, vault_payload, vault_source, example_paths)<br>46 lines, ? decisions</div>
+            </div>
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">AFTER — deepened</div>
+              <div class="text-gray-300">Hide internals behind a seam<br>Reduce public surface by half</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-600 mt-2">Leverage: callers depend on fewer names. Locality: logic moves behind the interface.</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <div class="flex justify-between items-start mb-3">
+            <code class="text-sm text-amber-400">tests/test_report.py</code>
+            <span class="inline-block px-2 py-0.5 rounded text-xs font-bold text-white bg-amber-500">Worth exploring</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">BEFORE — shallow</div>
+              <div class="text-gray-300">6 exports (test_markdown_structure, test_markdown_sorting_severity_first, test_rich_render_no_crash, test_svg_export_valid_xml)<br>66 lines, ? decisions</div>
+            </div>
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">AFTER — deepened</div>
+              <div class="text-gray-300">Hide internals behind a seam<br>Reduce public surface by half</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-600 mt-2">Leverage: callers depend on fewer names. Locality: logic moves behind the interface.</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <div class="flex justify-between items-start mb-3">
+            <code class="text-sm text-amber-400">tests/test_patches.py</code>
+            <span class="inline-block px-2 py-0.5 rounded text-xs font-bold text-white bg-amber-500">Worth exploring</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">BEFORE — shallow</div>
+              <div class="text-gray-300">5 exports (test_build_patch_marks_lines, test_build_patch_no_lines, test_build_patch_missing_file, test_inline_fix_hint_known)<br>59 lines, ? decisions</div>
+            </div>
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">AFTER — deepened</div>
+              <div class="text-gray-300">Hide internals behind a seam<br>Reduce public surface by half</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-600 mt-2">Leverage: callers depend on fewer names. Locality: logic moves behind the interface.</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <div class="flex justify-between items-start mb-3">
+            <code class="text-sm text-amber-400">tests/test_cli.py</code>
+            <span class="inline-block px-2 py-0.5 rounded text-xs font-bold text-white bg-amber-500">Worth exploring</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">BEFORE — shallow</div>
+              <div class="text-gray-300">8 exports (runner, test_version, test_datasets_lists_corpora, test_audit_rule_backend_plain)<br>80 lines, ? decisions</div>
+            </div>
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">AFTER — deepened</div>
+              <div class="text-gray-300">Hide internals behind a seam<br>Reduce public surface by half</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-600 mt-2">Leverage: callers depend on fewer names. Locality: logic moves behind the interface.</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <div class="flex justify-between items-start mb-3">
+            <code class="text-sm text-amber-400">slither_chat/models.py</code>
+            <span class="inline-block px-2 py-0.5 rounded text-xs font-bold text-white bg-amber-500">Worth exploring</span>
+          </div>
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">BEFORE — shallow</div>
+              <div class="text-gray-300">5 exports (Severity, severity_from_impact, Finding, AuditResult)<br>125 lines, ? decisions</div>
+            </div>
+            <div class="bg-gray-800 rounded p-3">
+              <div class="text-gray-500 mb-1">AFTER — deepened</div>
+              <div class="text-gray-300">Hide internals behind a seam<br>Reduce public surface by half</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-600 mt-2">Leverage: callers depend on fewer names. Locality: logic moves behind the interface.</p>
+        </div>
+<h2 class="text-lg font-semibold text-white mt-8 mb-3">High Coupling</h2>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <code class="text-sm text-purple-400">tests/test_report.py</code>
+          <p class="text-xs text-gray-500 mt-1">Imports 7 internal modules: slither_chat, slither_chat, slither_chat, slither_chat, tests</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <code class="text-sm text-purple-400">tests/test_hf_backend.py</code>
+          <p class="text-xs text-gray-500 mt-1">Imports 8 internal modules: slither_chat, slither_chat, slither_chat, tests, slither_chat</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <code class="text-sm text-purple-400">tests/test_llm_backend.py</code>
+          <p class="text-xs text-gray-500 mt-1">Imports 8 internal modules: slither_chat, slither_chat, slither_chat, tests, slither_chat</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <code class="text-sm text-purple-400">slither_chat/hf_backend.py</code>
+          <p class="text-xs text-gray-500 mt-1">Imports 4 internal modules: re, analyzer, models, parser</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <code class="text-sm text-purple-400">slither_chat/cli.py</code>
+          <p class="text-xs text-gray-500 mt-1">Imports 8 internal modules: models, report, pipeline, rich, rich</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <code class="text-sm text-purple-400">slither_chat/pipeline.py</code>
+          <p class="text-xs text-gray-500 mt-1">Imports 4 internal modules: analyzer, models, parser, hf_enrich</p>
+        </div>
+        <div class="bg-gray-900 rounded-lg p-4 mb-3">
+          <code class="text-sm text-purple-400">slither_chat/report.py</code>
+          <p class="text-xs text-gray-500 mt-1">Imports 6 internal modules: rich, rich, rich, rich, rich</p>
+        </div>
+
+
+    <h2 class="text-lg font-semibold text-white mt-8 mb-3">Dependency Graph</h2>
+    <div class="bg-gray-900 rounded-lg p-4 mb-3">
+      <pre class="text-xs text-gray-400 overflow-x-auto">graph TD
+  tests_test_parser_py --> slither_chat
+  tests_test_parser_py --> tests
+  tests_conftest_py --> json
+  tests_conftest_py --> pathlib
+  tests_conftest_py --> pytest
+  tests_conftest_py --> shutil
+  tests_test_audit_examples_py --> pytest
+  tests_test_audit_examples_py --> slither_chat
+  tests_test_audit_examples_py --> tests
+  tests_test_report_py --> slither_chat
+  tests_test_report_py --> tests
+  tests_test_report_py --> rich
+  tests_test_report_py --> xml
+  tests_test_hf_backend_py --> pandas
+  tests_test_hf_backend_py --> pytest
+  tests_test_hf_backend_py --> slither_chat
+  tests_test_hf_backend_py --> tests
+  tests_test_patches_py --> pathlib
+  tests_test_patches_py --> slither_chat
+  tests_test_cli_py --> json
+  tests_test_cli_py --> pytest
+  tests_test_cli_py --> click
+  tests_test_cli_py --> slither_chat
+  tests_test_cli_py --> tests
+  tests_test_rule_backend_py --> slither_chat
+  tests_test_llm_backend_py --> httpx
+  tests_test_llm_backend_py --> pytest
+  tests_test_llm_backend_py --> slither_chat
+  tests_test_llm_backend_py --> tests
+  scripts_verify_hf_model_py --> sys
+  scripts_verify_hf_model_py --> time
+  scripts_verify_hf_model_py --> pathlib
+  scripts_verify_hf_model_py --> slither_chat
+  scripts_daily_update_py --> __future__
+  scripts_daily_update_py --> datetime
+  scripts_daily_update_py --> json
+  scripts_daily_update_py --> os
+  scripts_daily_update_py --> re
+  scripts_daily_update_py --> subprocess
+  scripts_daily_update_py --> sys
+  scripts_daily_update_py --> pathlib
+  scripts_make_fixture_py --> json
+  scripts_make_fixture_py --> sys
+  scripts_make_fixture_py --> pathlib
+  scripts_make_fixture_py --> slither_chat
+  slither_chat_rule_backend_py --> __future__
+  slither_chat_rule_backend_py --> pathlib
+  slither_chat_rule_backend_py --> models
+  slither_chat_rule_backend_py --> patches
+  slither_chat_models_py --> __future__
+  slither_chat_models_py --> dataclasses
+  slither_chat_models_py --> enum
+  slither_chat_analyzer_py --> __future__
+  slither_chat_analyzer_py --> json
+  slither_chat_analyzer_py --> os
+  slither_chat_analyzer_py --> shutil
+  slither_chat_analyzer_py --> subprocess
+  slither_chat_analyzer_py --> tempfile
+  slither_chat_analyzer_py --> time
+  slither_chat_analyzer_py --> pathlib
+  slither_chat_analyzer_py --> models
+  slither_chat___init___py --> models
+  slither_chat___init___py --> pipeline
+  slither_chat_hf_backend_py --> __future__
+  slither_chat_hf_backend_py --> logging
+  slither_chat_hf_backend_py --> re
+  slither_chat_hf_backend_py --> tempfile
+  slither_chat_hf_backend_py --> dataclasses
+  slither_chat_hf_backend_py --> pathlib
+  slither_chat_hf_backend_py --> pandas
+  slither_chat_hf_backend_py --> huggingface_hub
+  slither_chat_hf_backend_py --> analyzer
+  slither_chat_hf_backend_py --> models
+  slither_chat_hf_backend_py --> parser
+  slither_chat_hf_backend_py --> transformers
+  slither_chat_parser_py --> __future__
+  slither_chat_parser_py --> pathlib
+  slither_chat_parser_py --> models
+  slither_chat_patches_py --> __future__
+  slither_chat_patches_py --> pathlib
+  slither_chat_patches_py --> models
+  slither_chat_cli_py --> __future__
+  slither_chat_cli_py --> json
+  slither_chat_cli_py --> pathlib
+  slither_chat_cli_py --> click
+  slither_chat_cli_py --> models
+  slither_chat_cli_py --> report
+  slither_chat_cli_py --> pipeline
+  slither_chat_cli_py --> rich
+  slither_chat_cli_py --> shutil
+  slither_chat_cli_py --> subprocess
+  slither_chat_cli_py --> rule_backend
+  slither_chat_cli_py --> hf_enrich
+  slither_chat_cli_py --> llm_backend
+  slither_chat_pipeline_py --> __future__
+  slither_chat_pipeline_py --> pathlib
+  slither_chat_pipeline_py --> analyzer
+  slither_chat_pipeline_py --> models
+  slither_chat_pipeline_py --> parser
+  slither_chat_pipeline_py --> hf_enrich
+  slither_chat_llm_backend_py --> __future__
+  slither_chat_llm_backend_py --> json
+  slither_chat_llm_backend_py --> os
+  slither_chat_llm_backend_py --> re
+  slither_chat_llm_backend_py --> pathlib
+  slither_chat_llm_backend_py --> typing
+  slither_chat_llm_backend_py --> httpx
+  slither_chat_llm_backend_py --> patches
+  slither_chat_llm_backend_py --> rule_backend
+  slither_chat_hf_enrich_py --> __future__
+  slither_chat_hf_enrich_py --> pathlib
+  slither_chat_hf_enrich_py --> hf_backend
+  slither_chat_hf_enrich_py --> models
+  slither_chat_hf_enrich_py --> rule_backend
+  slither_chat___main___py --> cli
+  slither_chat_report_py --> __future__
+  slither_chat_report_py --> textwrap
+  slither_chat_report_py --> pathlib
+  slither_chat_report_py --> rich
+  slither_chat_report_py --> models</pre>
+    </div>
+
+</body>
+</html>
