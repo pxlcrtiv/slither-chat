@@ -243,3 +243,10 @@ Historical bugs are fixed; new code is where findings live. Point the pipeline a
 
 > `git diff main...HEAD > /tmp/diff.sol && slither /tmp/diff.sol --detect all`
 
+
+## 2026-09-26 — Tip of the day: Severity is reachability × impact
+
+Two rules of thumb for report quality: (1) a finding without a concrete attack path is a note, not a bug; (2) 'high' means funds or control, 'medium' means data or DoS, 'low' means clarity. Consistent grading makes the whole report trustworthy — recruiters and reviewers can smell a severity-inflated audit.
+
+> `slither-chat benchmark --out docs/benchmark.json`
+
