@@ -250,3 +250,10 @@ Two rules of thumb for report quality: (1) a finding without a concrete attack p
 
 > `slither-chat benchmark --out docs/benchmark.json`
 
+
+## 2026-09-27 — Tip of the day: Keep the toolchain pinned and reproducible
+
+Slither output depends on slither and solc versions. Pin both (requirements.txt + solc-select) so an audit from January reproduces in June — for your own regressions and for anyone reviewing your report. slither-chat does this via pyproject + the documented solc setup.
+
+> `solc-select install 0.8.26 && solc-select use 0.8.26`
+
