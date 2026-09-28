@@ -257,3 +257,10 @@ Slither output depends on slither and solc versions. Pin both (requirements.txt 
 
 > `solc-select install 0.8.26 && solc-select use 0.8.26`
 
+
+## 2026-09-28 — Tip of the day: Foundry fuzzing is the second half of the audit
+
+Slither finds known patterns; fuzzing finds unknown ones. A 30-property invariant suite (no reentrancy, balances conserved, owner only) run with `forge test --fuzz-runs 50000` routinely surfaces what static analysis missed — value overflow under weird orderings, off-by-ones in pagination, oracle edge states.
+
+> `forge test --fuzz-runs 50000`
+
