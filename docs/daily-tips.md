@@ -264,3 +264,10 @@ Slither finds known patterns; fuzzing finds unknown ones. A 30-property invarian
 
 > `forge test --fuzz-runs 50000`
 
+
+## 2026-09-29 — Tip of the day: Green today, greppable forever
+
+Every finding, even the fixed ones, earns a line in the audit notes with the detector name, path, and verdict — so next month's audit is a diff, not a re-discovery. This file is the same idea: one dated tip a day beats a 400-line security essay nobody reads.
+
+> `slither-chat audit . --format markdown --out docs/audit-$(date +%F).md`
+
