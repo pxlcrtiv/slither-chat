@@ -271,3 +271,10 @@ Every finding, even the fixed ones, earns a line in the audit notes with the det
 
 > `slither-chat audit . --format markdown --out docs/audit-$(date +%F).md`
 
+
+## 2026-09-30 — Tip of the day: Start every audit with the reentrancy detectors — they are still #1
+
+Reentrancy remains the most exploited Solidity bug class. Slither ships two detectors: `reentrancy-eth` (value transfers, incl. read-only reentrancy shapes) and `reentrancy-no-eth`. Run both before anything else, and never skip the read-only variant: a view function that reads state written by a later call is a classic oracle for reentrancy.
+
+> `slither contracts/Token.sol --detect reentrancy-eth,reentrancy-no-eth`
+
