@@ -278,3 +278,10 @@ Reentrancy remains the most exploited Solidity bug class. Slither ships two dete
 
 > `slither contracts/Token.sol --detect reentrancy-eth,reentrancy-no-eth`
 
+
+## 2026-10-01 — Tip of the day: CEI — Checks, Effects, Interactions — is a linter-able rule
+
+Every function that moves value should do: checks (require/if), then effects (state writes), then interactions (external calls). Slither's `reentrancy-*` detectors fire precisely when a state write happens *after* an external call, which is the CEI violation. Fix by reordering, not by adding mutexes.
+
+> `slither-chat audit contracts/Token.sol`
+
