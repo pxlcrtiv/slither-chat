@@ -285,3 +285,10 @@ Every function that moves value should do: checks (require/if), then effects (st
 
 > `slither-chat audit contracts/Token.sol`
 
+
+## 2026-10-02 — Tip of the day: tx.origin is an authentication smell
+
+Using `tx.origin` for authorization lets any contract you interact with impersonate you (phishing-style attacks: user calls a malicious contract, which calls your contract, and tx.origin is the user). Use `msg.sender`. Slither flags this with the `tx-origin` detector — treat it as a hard fail in audits.
+
+> `slither . --detect tx-origin`
+
