@@ -292,3 +292,10 @@ Using `tx.origin` for authorization lets any contract you interact with imperson
 
 > `slither . --detect tx-origin`
 
+
+## 2026-10-03 — Tip of the day: Unchecked external-call return values are silent failures
+
+`target.call(...)` and low-level `send` return a bool you almost never check. A failed call then looks like success, corrupting caller logic. Wrap low-level calls in a helper that reverts on false, or use the high-level interface where the compiler reverts for you. The detector `unchecked-lowlevel` and `unchecked-send` find these.
+
+> `slither . --detect unchecked-lowlevel,unchecked-send`
+
