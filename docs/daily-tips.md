@@ -341,3 +341,10 @@ A local variable of storage pointer type that is never assigned (e.g. `User stor
 
 > `slither . --detect uninitialized-storage`
 
+
+## 2026-10-11 — Tip of the day: delegatecall is a storage-collision weapon
+
+`delegatecall` runs foreign code in your storage layout. Differences in slot order between caller and callee silently corrupt state, and `controlled-delegatecall` (user-controlled target) is a full contract takeover. Auditors treat any delegatecall to a non-immutable, non-admin target as critical.
+
+> `slither . --detect controlled-delegatecall`
+
