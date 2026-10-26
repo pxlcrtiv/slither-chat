@@ -179,17 +179,21 @@ _FALLBACK = (
 )
 
 
-def explain(finding: Finding) -> str:
+def _kb_lookup(finding: Finding) -> tuple[str, str, str]:
+    """Single source of truth for KB lookup + fallback substitution."""
     what, why, fix = KB.get(finding.rule_id, _FALLBACK)
     if finding.rule_id not in KB:
         what = what.format(rule=finding.rule_id)
+    return what, why, fix
+
+
+def explain(finding: Finding) -> str:
+    what, why, fix = _kb_lookup(finding)
     return f"{what}.\n\nWhy it matters: {why}\n\nSuggested fix: {fix}"
 
 
 def explain_with_fields(finding: Finding) -> tuple[str, str]:
-    what, why, fix = KB.get(finding.rule_id, _FALLBACK)
-    if finding.rule_id not in KB:
-        what = what.format(rule=finding.rule_id)
+    what, why, fix = _kb_lookup(finding)
     return f"{what}. {why}", fix
 
 
