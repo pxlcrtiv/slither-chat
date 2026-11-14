@@ -570,6 +570,7 @@ Every finding, even the fixed ones, earns a line in the audit notes with the det
 
 Reentrancy remains the most exploited Solidity bug class. Slither ships two detectors: `reentrancy-eth` (value transfers, incl. read-only reentrancy shapes) and `reentrancy-no-eth`. Run both before anything else, and never skip the read-only variant: a view function that reads state written by a later call is a classic oracle for reentrancy.
 
+<<<<<<< Updated upstream
 > `slither contracts/Token.sol --detect reentrancy-eth,reentrancy-no-eth`
 
 
@@ -578,4 +579,14 @@ Reentrancy remains the most exploited Solidity bug class. Slither ships two dete
 Every function that moves value should do: checks (require/if), then effects (state writes), then interactions (external calls). Slither's `reentrancy-*` detectors fire precisely when a state write happens *after* an external call, which is the CEI violation. Fix by reordering, not by adding mutexes.
 
 > `slither-chat audit contracts/Token.sol`
+
+=======
+> `slither contracts/Token.sol --detect reentrancy-eth,reentr
+>>>>>>> Stashed changes
+
+## 2026-11-14 — Tip of the day: tx.origin is an authentication smell
+
+Using `tx.origin` for authorization lets any contract you interact with impersonate you (phishing-style attacks: user calls a malicious contract, which calls your contract, and tx.origin is the user). Use `msg.sender`. Slither flags this with the `tx-origin` detector — treat it as a hard fail in audits.
+
+> `slither . --detect tx-origin`
 
