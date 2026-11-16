@@ -597,3 +597,10 @@ Using `tx.origin` for authorization lets any contract you interact with imperson
 
 > `slither . --detect unchecked-lowlevel,unchecked-send`
 
+
+## 2026-11-16 — Tip of the day: Arithmetic overflow is only 'solved' if the pragma is 0.8.x
+
+Solidity < 0.8 silently wraps arithmetic. If a contract pins `pragma solidity ^0.7.0` for deployment, every `+ - * /` is a potential overflow — Slither's `arithmetic` detector maps all of them. On 0.8+, the danger moved into `unchecked {}` blocks, so audit those specifically.
+
+> `slither . --detect arithmetic`
+
