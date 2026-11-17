@@ -604,3 +604,10 @@ Solidity < 0.8 silently wraps arithmetic. If a contract pins `pragma solidity ^0
 
 > `slither . --detect arithmetic`
 
+
+## 2026-11-17 — Tip of the day: Access control lives in three places — check all of them
+
+Missing `onlyOwner` is the classic, but also check: (1) functions that should be admin-only but are public, (2) init functions that any caller can front-run to become the admin (see `initializer` detector), (3) `selfdestruct` reachable by non-owners. Slither: `missing-modifier`, `initializer`, `controlled-selfdestruct`.
+
+> `slither . --detect missing-modifier,initializer,controlled-selfdestruct`
+
